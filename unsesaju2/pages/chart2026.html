@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>2026 사주표</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="page-header">
+  <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <h1>2026 사주표</h1>
+</div>
+<div class="page-content">
+
+  <div style="background:#C84B31;border-radius:14px;padding:16px 18px;margin-bottom:16px;color:#fff;text-align:center;">
+    <div style="font-size:12px;opacity:.8;margin-bottom:4px;">병오년 (丙午年)</div>
+    <div style="font-size:22px;font-weight:700;">2026년 운세 달력</div>
+    <div style="font-size:13px;opacity:.85;margin-top:4px;">절기·음력·일진 포함</div>
+  </div>
+
+  <!-- 월 선택 -->
+  <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px;-webkit-overflow-scrolling:touch;">
+    <button id="month-all" onclick="showMonth(0)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #C84B31;background:#C84B31;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">전체</button>
+    <button id="month-1" onclick="showMonth(1)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">1월</button>
+    <button id="month-2" onclick="showMonth(2)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">2월</button>
+    <button id="month-3" onclick="showMonth(3)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">3월</button>
+    <button id="month-4" onclick="showMonth(4)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">4월</button>
+    <button id="month-5" onclick="showMonth(5)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">5월</button>
+    <button id="month-6" onclick="showMonth(6)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">6월</button>
+    <button id="month-7" onclick="showMonth(7)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">7월</button>
+    <button id="month-8" onclick="showMonth(8)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">8월</button>
+    <button id="month-9" onclick="showMonth(9)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">9월</button>
+    <button id="month-10" onclick="showMonth(10)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">10월</button>
+    <button id="month-11" onclick="showMonth(11)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">11월</button>
+    <button id="month-12" onclick="showMonth(12)" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid #EAD5CE;background:#fff;color:#6B4F3A;font-size:13px;cursor:pointer;font-family:inherit;">12월</button>
+  </div>
+
+  <div id="calendar-container"></div>
+
+</div>
+
+<nav class="bottom-nav">
+  <a href="today.html" class="nav-item"><i class="fas fa-sun"></i><span>오늘운세</span></a>
+  <a href="input.html" class="nav-item"><i class="fas fa-user-edit"></i><span>내 정보</span></a>
+  <a href="../index.html" class="nav-item"><i class="fas fa-th-large"></i><span>전체메뉴</span></a>
+  <a href="chart2026.html" class="nav-item active"><i class="fas fa-calendar-alt"></i><span>2026표</span></a>
+  <a href="faq.html" class="nav-item"><i class="fas fa-question-circle"></i><span>FAQ</span></a>
+</nav>
+
+<script src="../js/lunar.js"></script>
+<script src="../js/main.js"></script>
+<script>
+const STEMS10 = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BRANCHES12 = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const DAY_NAMES = ['일','월','화','수','목','금','토'];
+const HOLIDAYS = {'1/1':'신정','2/17':'설날','3/1':'삼일절','5/5':'어린이날','5/15':'부처님오신날','6/6':'현충일','8/15':'광복절','10/3':'개천절','10/9':'한글날','12/25':'크리스마스'};
+
+const JUNGGI_2026 = {
+  '1/5':'소한','1/20':'대한','2/3':'입춘','2/18':'우수',
+  '3/5':'경칩','3/20':'춘분','4/4':'청명','4/20':'곡우',
+  '5/5':'입하','5/21':'소만','6/6':'망종','6/21':'하지',
+  '7/7':'소서','7/23':'대서','8/7':'입추','8/23':'처서',
+  '9/7':'백로','9/23':'추분','10/8':'한로','10/23':'상강',
+  '11/7':'입동','11/22':'소설','12/7':'대설','12/22':'동지'
+};
+
+function getDayPillarStr(y,m,d) {
+  const base = new Date(2000,0,7);
+  const diff = Math.floor((new Date(y,m-1,d)-base)/86400000);
+  return STEMS10[((diff%10)+10)%10] + BRANCHES12[((diff%12)+12)%12];
+}
+
+function renderMonth(m) {
+  const firstDay = new Date(2026, m-1, 1).getDay();
+  const lastDate = new Date(2026, m, 0).getDate();
+  const today = new Date();
+  const isCurrentMonth = today.getFullYear()===2026 && today.getMonth()+1===m;
+
+  let html = `<div style="background:#fff;border:1px solid #EAD5CE;border-radius:14px;overflow:hidden;margin-bottom:16px;">`;
+  html += `<div style="background:#C84B31;color:#fff;padding:12px 16px;font-size:16px;font-weight:700;">2026년 ${m}월</div>`;
+  html += `<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#EAD5CE;">`;
+  DAY_NAMES.forEach((d,i) => {
+    const c = i===0?'#e53935':i===6?'#1565C0':'#666';
+    html += `<div style="background:#FFF0ED;text-align:center;padding:6px 2px;font-size:11px;font-weight:600;color:${c};">${d}</div>`;
+  });
+
+  for (let i=0;i<firstDay;i++) html += `<div style="background:#f9f6f4;"></div>`;
+
+  for (let d=1;d<=lastDate;d++) {
+    const key = `${m}/${d}`;
+    const isToday = isCurrentMonth && today.getDate()===d;
+    const isHoliday = HOLIDAYS[key];
+    const junggi = JUNGGI_2026[key];
+    const dow = new Date(2026,m-1,d).getDay();
+    const isWeekend = dow===0||dow===6;
+    const dayPillar = getDayPillarStr(2026,m,d);
+
+    let lunar = '';
+    try { const l = solarToLunar(2026,m,d); lunar = l.day===1?`${l.month}월`:`${l.day}`; } catch(e) { lunar = d; }
+
+    const bg = isToday ? '#C84B31' : '#fff';
+    const solColor = isToday ? '#fff' : (isHoliday||dow===0) ? '#e53935' : dow===6 ? '#1565C0' : '#2C1810';
+    const lunarColor = isToday ? 'rgba(255,255,255,.8)' : '#999';
+    const pillarColor = isToday ? 'rgba(255,255,255,.9)' : '#C84B31';
+
+    html += `<div style="background:${bg};padding:4px 2px;min-height:52px;text-align:center;border-top:1px solid #f0e8e4;">`;
+    html += `<div style="font-size:14px;font-weight:${isToday?'700':'500'};color:${solColor};">${d}</div>`;
+    html += `<div style="font-size:9px;color:${lunarColor};">${isHoliday||junggi?isHoliday||junggi:lunar}</div>`;
+    html += `<div style="font-size:9px;color:${pillarColor};">${dayPillar}</div>`;
+    html += `</div>`;
+  }
+  html += `</div></div>`;
+  return html;
+}
+
+function showMonth(m) {
+  document.querySelectorAll('[id^="month-"]').forEach(b => {
+    b.style.background = '#fff'; b.style.color = '#6B4F3A'; b.style.borderColor = '#EAD5CE';
+  });
+  const active = document.getElementById(m===0?'month-all':`month-${m}`);
+  if (active) { active.style.background='#C84B31'; active.style.color='#fff'; active.style.borderColor='#C84B31'; }
+
+  const container = document.getElementById('calendar-container');
+  if (m===0) {
+    container.innerHTML = Array.from({length:12},(_,i)=>renderMonth(i+1)).join('');
+  } else {
+    container.innerHTML = renderMonth(m);
+  }
+}
+
+const curMonth = new Date().getMonth()+1;
+showMonth(curMonth <= 12 ? curMonth : 1);
+</script>
+</body>
+</html>

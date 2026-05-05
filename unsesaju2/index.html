@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#C84B31">
+<title>운세사주 - My Fortune</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--p:#C84B31;--pl:#FFF0ED;--bg:#FDF8F5;--text:#2C1810;--muted:#999;--border:#EAD5CE;--sh:rgba(200,75,49,.15);}
+html,body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100%;-webkit-tap-highlight-color:transparent;}
+body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height:100vh;}
+#profile-bar{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;background:#fff;border-bottom:1px solid var(--border);font-size:13px;}
+#profile-bar a{color:var(--p);font-weight:700;text-decoration:none;background:var(--pl);padding:5px 12px;border-radius:20px;font-size:12px;}
+.main-content{flex:1;padding:20px 16px 90px;}
+.logo-section{display:flex;justify-content:center;margin-bottom:18px;}
+.logo-circle{width:160px;height:160px;border-radius:50%;background:var(--p);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 28px var(--sh),0 0 0 6px rgba(200,75,49,.1);}
+.logo-en{font-size:10px;color:rgba(255,255,255,.8);letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;}
+.logo-ko{font-family:'Noto Serif KR',serif;font-size:30px;color:#fff;font-weight:700;letter-spacing:3px;}
+.today-strip{display:flex;justify-content:space-between;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;}
+.today-strip span:last-child{color:var(--p);font-weight:700;}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.menu-card{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--text);padding:18px 10px 14px;border-radius:16px;background:#fff;border:1px solid var(--border);position:relative;transition:transform .15s;}
+.menu-card:active{transform:scale(.97);}
+.menu-icon{width:52px;height:52px;border-radius:13px;background:var(--pl);display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.menu-icon i{font-size:24px;color:var(--p);}
+.menu-label{font-size:18px;font-weight:700;margin-bottom:2px;}
+.menu-sub{font-size:11px;color:var(--muted);}
+.lock-tag{position:absolute;top:10px;right:10px;background:#FFF0ED;color:var(--p);font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;border:1px solid var(--border);}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;display:flex;justify-content:space-around;background:#fff;border-top:1px solid var(--border);padding:8px 0 16px;z-index:100;}
+.nav-item{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--muted);font-size:10px;gap:3px;padding:4px 8px;}
+.nav-item i{font-size:20px;}
+.nav-item.active{color:var(--p);}
+</style>
+</head>
+<body>
+<div id="profile-bar">
+  <span id="profile-text"><i class="fas fa-user" style="color:#C84B31;margin-right:4px;"></i> 사용자 정보를 입력해 주세요</span>
+  <a href="pages/input.html" id="profile-link">입력하러 가기</a>
+</div>
+<main class="main-content">
+  <div class="logo-section">
+    <div class="logo-circle">
+      <span class="logo-en">My Fortune</span>
+      <span class="logo-ko">운세사주</span>
+    </div>
+  </div>
+  <div class="today-strip">
+    <span id="today-date"></span>
+    <span id="today-iljin"></span>
+  </div>
+  <div class="menu-grid">
+    <a href="pages/fortune.html?type=destiny" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-user-circle"></i></div>
+      <span class="menu-label">운명</span>
+      <span class="menu-sub">사주 총운</span>
+    </a>
+    <a href="pages/fortune.html?type=wealth" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-coins"></i></div>
+      <span class="menu-label">재물운</span>
+      <span class="menu-sub">금전·투자</span>
+    </a>
+    <a href="pages/fortune.html?type=love" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-heart"></i></div>
+      <span class="menu-label">애정운</span>
+      <span class="menu-sub">인연·연애</span>
+    </a>
+    <a href="pages/fortune.html?type=health" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
+      <span class="menu-label">건강운</span>
+      <span class="menu-sub">건강·활력</span>
+    </a>
+    <a href="pages/fortune.html?type=career" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-briefcase"></i></div>
+      <span class="menu-label">직업운</span>
+      <span class="menu-sub">직장·사업</span>
+    </a>
+    <a href="pages/fortune.html?type=bigluck" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-mountain"></i></div>
+      <span class="menu-label">대운시기</span>
+      <span class="menu-sub">10년 대운</span>
+      <span class="lock-tag">🔒 구독</span>
+    </a>
+    <a href="pages/fortune.html?type=tojeong" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-scroll"></i></div>
+      <span class="menu-label">토정비결</span>
+      <span class="menu-sub">육효점술</span>
+    </a>
+    <a href="pages/fortune.html?type=mbti" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-users"></i></div>
+      <span class="menu-label">MBTI궁합</span>
+      <span class="menu-sub">성격 궁합</span>
+      <span class="lock-tag">🔒 구독</span>
+    </a>
+  </div>
+</main>
+<nav class="bottom-nav">
+  <a href="pages/today.html" class="nav-item"><i class="fas fa-sun"></i><span>오늘운세</span></a>
+  <a href="pages/input.html" class="nav-item"><i class="fas fa-user-edit"></i><span>내 정보</span></a>
+  <a href="index.html" class="nav-item active"><i class="fas fa-th-large"></i><span>전체메뉴</span></a>
+  <a href="pages/chart2026.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>2026표</span></a>
+  <a href="pages/faq.html" class="nav-item"><i class="fas fa-question-circle"></i><span>FAQ</span></a>
+</nav>
+<script>
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+(function(){
+  const p=JSON.parse(localStorage.getItem('fortune_profiles')||'[]')[0];
+  if(p){
+    document.getElementById('profile-text').innerHTML=`<i class="fas fa-user-check" style="color:#C84B31;margin-right:4px;"></i> ${p.name||'사용자'}님 (${p.year}.${String(p.month).padStart(2,'0')}.${String(p.day).padStart(2,'0')})`;
+    document.getElementById('profile-link').textContent='수정';
+  }
+  const now=new Date();
+  const days=['일','월','화','수','목','금','토'];
+  document.getElementById('today-date').textContent=`${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 (${days[now.getDay()]})`;
+  const ILJIN=['갑자','을축','병인','정묘','무진','기사','경오','신미','임신','계유','갑술','을해','병자','정축','무인','기묘','경진','신사','임오','계미','갑신','을유','병술','정해','무자','기축','경인','신묘','임진','계사','갑오','을미','병신','정유','무술','기해','경자','신축','임인','계묘','갑진','을사','병오','정미','무신','기유','경술','신해','임자','계축','갑인','을묘','병진','정사','무오','기미','경신','신유','임술','계해'];
+  const base=new Date(2024,0,1);
+  const diff=Math.floor((now-base)/86400000);
+  document.getElementById('today-iljin').textContent=ILJIN[((diff%60)+60)%60]+'일';
+})();
+</script>
+</body>
+</html>

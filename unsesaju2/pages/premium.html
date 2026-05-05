@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>구독하기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.benefit-list{list-style:none;margin:14px 0;}
+.benefit-list li{padding:10px 0;font-size:14px;color:#2C1810;border-bottom:1px solid #f0ece8;display:flex;align-items:center;gap:10px;}
+.benefit-list li:last-child{border-bottom:none;}
+.benefit-list li i{color:#C84B31;width:16px;}
+.price-card{background:#FFF0ED;border:2px solid #C84B31;border-radius:16px;padding:24px;text-align:center;margin:16px 0;}
+.price-main{font-size:42px;font-weight:700;color:#C84B31;line-height:1;}
+.price-unit{font-size:16px;color:#6B4F3A;margin-top:4px;}
+.price-note{font-size:12px;color:#999;margin-top:8px;line-height:1.6;}
+.pay-btn{width:100%;padding:16px;background:#C84B31;color:#fff;border:none;border-radius:14px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;}
+.pay-btn:active{opacity:.9;}
+.already-card{background:#E8F5E9;border:1px solid #A5D6A7;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <h1>구독하기</h1>
+</div>
+<div class="page-content">
+
+  <div id="already-sub" style="display:none;">
+    <div class="already-card">
+      <i class="fas fa-crown" style="font-size:44px;color:#B8860B;margin-bottom:12px;display:block;"></i>
+      <h3 style="margin-bottom:8px;color:#2E7D32;">구독 중입니다 👑</h3>
+      <p style="font-size:13px;color:#388E3C;" id="expiry-label"></p>
+    </div>
+    <ul class="benefit-list">
+      <li><i class="fas fa-check-circle"></i> 모든 운세 상세 내용 무제한</li>
+      <li><i class="fas fa-check-circle"></i> 대운시기 10년 분석</li>
+      <li><i class="fas fa-check-circle"></i> MBTI 궁합 상세 분석</li>
+      <li><i class="fas fa-check-circle"></i> 광고 없이 이용</li>
+    </ul>
+    <button onclick="cancelSub()" class="btn-outline">구독 해지</button>
+  </div>
+
+  <div id="sub-section">
+    <div style="text-align:center;padding:10px 0 20px;">
+      <div style="font-size:50px;margin-bottom:10px;">👑</div>
+      <h2 id="sub-title" style="font-size:22px;font-weight:700;color:#2C1810;margin-bottom:8px;">모든 운세를 무제한으로</h2>
+      <p style="font-size:14px;color:#6B4F3A;line-height:1.7;">대운시기·MBTI 궁합·상세 운세 전체 내용을<br>마음껏 확인하세요</p>
+    </div>
+
+    <div class="price-card">
+      <div style="font-size:13px;color:#6B4F3A;margin-bottom:8px;font-weight:600;">월간 구독</div>
+      <div class="price-main">3,000<span style="font-size:20px;">원</span></div>
+      <div class="price-unit">매월 자동 결제</div>
+      <div class="price-note">휴대폰 요금에 자동이체 또는 카드 결제<br>언제든지 해지 가능 · 해지 후 당월 말까지 이용</div>
+    </div>
+
+    <ul class="benefit-list">
+      <li><i class="fas fa-check-circle"></i> 운명·재물·애정·건강·직업운 전체 내용</li>
+      <li><i class="fas fa-check-circle"></i> 대운시기 10년 상세 분석</li>
+      <li><i class="fas fa-check-circle"></i> MBTI 궁합 심층 분석</li>
+      <li><i class="fas fa-check-circle"></i> 2026 신년운세 전체</li>
+      <li><i class="fas fa-check-circle"></i> 광고 없이 쾌적하게 이용</li>
+      <li><i class="fas fa-check-circle"></i> 매월 업데이트되는 월간 운세</li>
+    </ul>
+
+    <!-- 구글 플레이 인앱결제 버튼 -->
+    <button class="pay-btn" onclick="startPay()">
+      <i class="fas fa-mobile-alt"></i> 월 3,000원 구독 시작
+    </button>
+    <p style="text-align:center;font-size:12px;color:#999;margin-bottom:20px;line-height:1.7;">
+      📱 구글 플레이 인앱결제로 안전하게 처리됩니다<br>
+      매월 자동이체 · 언제든 구글 플레이에서 해지 가능
+    </p>
+
+    <div style="background:#f9f6f4;border-radius:12px;padding:14px 16px;">
+      <p style="font-size:12px;color:#999;line-height:1.75;text-align:center;">
+        구독은 구글 플레이 계정에 청구됩니다.<br>
+        갱신 24시간 전까지 해지하지 않으면 자동 갱신됩니다.<br>
+        해지: 구글 플레이 → 구독 관리<br>
+        문의: bigdolphin4989@gmail.com
+      </p>
+    </div>
+  </div>
+
+</div>
+<script src="../js/main.js"></script>
+<script src="../js/premium.js"></script>
+<script>
+// 이름 반영
+const p=getProfile();
+if(p&&p.name){
+  document.getElementById('sub-title').textContent=p.name+'님, 모든 운세를 무제한으로';
+}
+
+function startPay(){
+  // 구글 플레이 앱: window.Android.purchaseSubscription('fortune_monthly_3000')
+  if(window.Android&&window.Android.purchaseSubscription){
+    window.Android.purchaseSubscription('fortune_monthly_3000');
+  } else {
+    // 웹 테스트용 (앱 출시 후 자동으로 구글 인앱결제로 처리됨)
+    if(confirm('월 3,000원 구독을 시작하시겠습니까?\n\n• 매월 자동이체\n• 언제든 해지 가능\n\n(앱 출시 후 구글 플레이 인앱결제로 처리됩니다)')){
+      setPremium(30);
+    }
+  }
+}
+
+function cancelSub(){
+  if(window.Android&&window.Android.openSubscriptionManagement){
+    window.Android.openSubscriptionManagement();
+  } else {
+    alert('구글 플레이 → 프로필 아이콘 → 결제 및 구독 → 구독 관리에서 해지할 수 있습니다.');
+  }
+}
+
+if(checkPremium()){
+  document.getElementById('already-sub').style.display='block';
+  document.getElementById('sub-section').style.display='none';
+  const exp=getPremiumExpiry();
+  if(exp) document.getElementById('expiry-label').textContent=`${exp.getFullYear()}년 ${exp.getMonth()+1}월 ${exp.getDate()}일까지 이용 가능`;
+}
+</script>
+</body>
+</html>

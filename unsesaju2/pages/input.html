@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>내 정보 입력</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.tab-row{display:flex;border:1.5px solid #C84B31;border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.tab-btn{flex:1;padding:12px;border:none;background:#fff;color:#C84B31;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+.tab-btn.active{background:#C84B31;color:#fff;}
+.date-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;}
+.dinput{width:100%;padding:13px 8px;border:1.5px solid #EAD5CE;border-radius:12px;font-size:15px;font-family:inherit;background:#fff;color:#2C1810;outline:none;text-align:center;}
+.dinput:focus{border-color:#C84B31;box-shadow:0 0 0 3px rgba(200,75,49,.15);}
+.dselect{width:100%;padding:13px 6px;border:1.5px solid #EAD5CE;border-radius:12px;font-size:15px;font-family:inherit;background:#fff;color:#2C1810;outline:none;}
+.dselect:focus{border-color:#C84B31;}
+.conv-box{border-radius:10px;padding:12px 14px;margin-top:10px;font-size:13px;font-weight:600;display:none;align-items:center;gap:8px;}
+.conv-ok{background:#E8F5E9;border:1px solid #A5D6A7;color:#2E7D32;}
+.conv-info{background:#FFF0ED;border:1px solid #EAD5CE;color:#C84B31;}
+.gbtn{padding:13px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;}
+.gbtn.on{border:2px solid #C84B31;background:#FFF0ED;color:#C84B31;}
+.gbtn.off{border:1.5px solid #EAD5CE;background:#fff;color:#999;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <h1>내 정보 입력</h1>
+</div>
+<div class="page-content">
+
+  <div style="background:#FFF0ED;border-radius:12px;padding:12px 14px;margin-bottom:18px;border:1px solid #EAD5CE;">
+    <p style="font-size:13px;color:#C84B31;font-weight:600;margin-bottom:3px;"><i class="fas fa-info-circle"></i> 사주는 음력이 기본입니다</p>
+    <p style="font-size:12px;color:#6B4F3A;">음력을 모르면 양력 탭을 눌러 입력하면 자동으로 음력으로 변환됩니다.</p>
+  </div>
+
+  <!-- 이름 -->
+  <div class="form-group">
+    <label>이름</label>
+    <input type="text" id="inp-name" placeholder="이름을 입력하세요" class="dinput" style="text-align:left;padding:13px 14px;">
+  </div>
+
+  <!-- 생년월일 - 기본값: 음력 -->
+  <div class="form-group">
+    <label>생년월일</label>
+    <div class="tab-row">
+      <button class="tab-btn active" id="tab-l" onclick="switchTab('lunar')">🌙 음력 입력 (기본)</button>
+      <button class="tab-btn" id="tab-s" onclick="switchTab('solar')">☀️ 양력 입력</button>
+    </div>
+
+    <!-- 음력 입력 (기본) -->
+    <div id="sec-lunar">
+      <div class="date-row">
+        <input type="number" id="ly" class="dinput" placeholder="년도 (1960)" min="1900" max="2010" oninput="onLunarChange()">
+        <select id="lm" class="dselect" onchange="onLunarChange()">
+          <option value="">월</option>
+          <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
+          <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
+          <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
+          <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
+        </select>
+        <input type="number" id="ld" class="dinput" placeholder="일" min="1" max="30" oninput="onLunarChange()">
+      </div>
+      <!-- 양력 변환 결과 표시 -->
+      <div class="conv-box conv-ok" id="lunar-conv-result">
+        <i class="fas fa-check-circle"></i>
+        <span>양력으로 변환: </span><strong id="lunar-conv-text"></strong>
+      </div>
+      <div class="conv-box conv-info" id="lunar-conv-fail" style="display:none !important;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>날짜를 다시 확인해주세요</span>
+      </div>
+    </div>
+
+    <!-- 양력 입력 탭 -->
+    <div id="sec-solar" style="display:none;">
+      <div class="date-row">
+        <input type="number" id="sy" class="dinput" placeholder="년도 (1960)" min="1900" max="2010" oninput="onSolarChange()">
+        <select id="sm" class="dselect" onchange="onSolarChange()">
+          <option value="">월</option>
+          <option value="1">1월</option><option value="2">2월</option><option value="3">3월</option>
+          <option value="4">4월</option><option value="5">5월</option><option value="6">6월</option>
+          <option value="7">7월</option><option value="8">8월</option><option value="9">9월</option>
+          <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
+        </select>
+        <input type="number" id="sd" class="dinput" placeholder="일" min="1" max="31" oninput="onSolarChange()">
+      </div>
+      <!-- 음력 변환 결과 표시 -->
+      <div class="conv-box conv-ok" id="solar-conv-result">
+        <i class="fas fa-sync-alt"></i>
+        <span>음력으로 변환: </span><strong id="solar-conv-text"></strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 출생 시간 -->
+  <div class="form-group">
+    <label>출생 시간</label>
+    <select id="inp-hour" class="dselect">
+      <option value="-1">모름</option>
+      <option value="0">자시 (23~01시)</option><option value="2">축시 (01~03시)</option>
+      <option value="4">인시 (03~05시)</option><option value="6">묘시 (05~07시)</option>
+      <option value="8">진시 (07~09시)</option><option value="10">사시 (09~11시)</option>
+      <option value="12">오시 (11~13시)</option><option value="14">미시 (13~15시)</option>
+      <option value="16">신시 (15~17시)</option><option value="18">유시 (17~19시)</option>
+      <option value="20">술시 (19~21시)</option><option value="22">해시 (21~23시)</option>
+    </select>
+  </div>
+
+  <!-- 성별 -->
+  <div class="form-group">
+    <label>성별</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button id="btn-f" class="gbtn on" onclick="selG('F')">👩 여성</button>
+      <button id="btn-m" class="gbtn off" onclick="selG('M')">👨 남성</button>
+    </div>
+  </div>
+
+  <button class="btn-primary" onclick="doSave()" style="font-size:16px;padding:16px;">
+    <i class="fas fa-save"></i> 저장하고 운세 보기
+  </button>
+
+  <div id="saved-wrap" style="margin-top:16px;"></div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="today.html" class="nav-item"><i class="fas fa-sun"></i><span>오늘운세</span></a>
+  <a href="input.html" class="nav-item active"><i class="fas fa-user-edit"></i><span>내 정보</span></a>
+  <a href="../index.html" class="nav-item"><i class="fas fa-th-large"></i><span>전체메뉴</span></a>
+  <a href="chart2026.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>2026표</span></a>
+  <a href="faq.html" class="nav-item"><i class="fas fa-question-circle"></i><span>FAQ</span></a>
+</nav>
+
+<script src="../js/lunar.js"></script>
+<script src="../js/main.js"></script>
+<script>
+let curTab = 'lunar'; // 기본: 음력
+let sg = 'F';
+// 최종 저장값 (항상 음력 기준)
+let finalLY = null, finalLM = null, finalLD = null; // 음력
+let finalSY = null, finalSM = null, finalSD = null; // 대응 양력
+
+function switchTab(t) {
+  curTab = t;
+  document.getElementById('tab-l').className = 'tab-btn' + (t==='lunar' ? ' active' : '');
+  document.getElementById('tab-s').className = 'tab-btn' + (t==='solar' ? ' active' : '');
+  document.getElementById('sec-lunar').style.display = t==='lunar' ? 'block' : 'none';
+  document.getElementById('sec-solar').style.display = t==='solar' ? 'block' : 'none';
+}
+
+// 음력 입력 → 양력 변환
+function onLunarChange() {
+  const ly = parseInt(document.getElementById('ly').value);
+  const lm = parseInt(document.getElementById('lm').value);
+  const ld = parseInt(document.getElementById('ld').value);
+  const resBox = document.getElementById('lunar-conv-result');
+
+  if (!ly || !lm || !ld || ly < 1900 || ly > 2010) {
+    resBox.style.display = 'none';
+    finalLY=null; finalLM=null; finalLD=null;
+    finalSY=null; finalSM=null; finalSD=null;
+    return;
+  }
+
+  try {
+    // 음력 → 양력 변환 (앞뒤 90일 탐색)
+    const approx = new Date(ly, lm-1, ld+25);
+    let found = null;
+    for (let i = -90; i <= 90; i++) {
+      const dt = new Date(approx.getTime() + i*86400000);
+      const s = solarToLunar(dt.getFullYear(), dt.getMonth()+1, dt.getDate());
+      if (s.year===ly && s.month===lm && s.day===ld) { found=dt; break; }
+    }
+    if (found) {
+      finalLY=ly; finalLM=lm; finalLD=ld;
+      finalSY=found.getFullYear(); finalSM=found.getMonth()+1; finalSD=found.getDate();
+      document.getElementById('lunar-conv-text').textContent =
+        finalSY+'년 '+finalSM+'월 '+finalSD+'일';
+      resBox.style.display = 'flex';
+    } else {
+      resBox.style.display = 'none';
+      finalLY=null; finalLM=null; finalLD=null;
+      finalSY=null; finalSM=null; finalSD=null;
+    }
+  } catch(e) {
+    resBox.style.display = 'none';
+  }
+}
+
+// 양력 입력 → 음력 변환
+function onSolarChange() {
+  const sy = parseInt(document.getElementById('sy').value);
+  const sm = parseInt(document.getElementById('sm').value);
+  const sd = parseInt(document.getElementById('sd').value);
+  const resBox = document.getElementById('solar-conv-result');
+
+  if (!sy || !sm || !sd || sy < 1900 || sy > 2030 || sd < 1 || sd > 31) {
+    resBox.style.display = 'none';
+    finalLY=null; finalLM=null; finalLD=null;
+    finalSY=null; finalSM=null; finalSD=null;
+    return;
+  }
+
+  try {
+    const l = solarToLunar(sy, sm, sd);
+    finalSY=sy; finalSM=sm; finalSD=sd;
+    finalLY=l.year; finalLM=l.month; finalLD=l.day;
+    document.getElementById('solar-conv-text').textContent =
+      l.year+'년 '+l.month+'월 '+l.day+'일'+(l.isLeap?' (윤달)':'');
+    resBox.style.display = 'flex';
+  } catch(e) {
+    resBox.style.display = 'none';
+    finalLY=null; finalLM=null; finalLD=null;
+  }
+}
+
+function selG(g) {
+  sg = g;
+  document.getElementById('btn-f').className = 'gbtn '+(g==='F'?'on':'off');
+  document.getElementById('btn-m').className = 'gbtn '+(g==='M'?'on':'off');
+}
+
+function doSave() {
+  const name = document.getElementById('inp-name').value.trim();
+  const hour = parseInt(document.getElementById('inp-hour').value);
+
+  // 음력/양력 둘 다 있어야 저장
+  if (!finalLY || !finalLM || !finalLD || !finalSY || !finalSM || !finalSD) {
+    if (curTab === 'lunar') {
+      alert('음력 생년월일을 입력해주세요.\n자동으로 양력으로 변환됩니다.');
+    } else {
+      alert('양력 생년월일을 입력해주세요.\n자동으로 음력으로 변환됩니다.');
+    }
+    return;
+  }
+
+  // 저장: 음력과 양력 모두 저장
+  const profile = {
+    name,
+    // 음력 (사주 계산 기준)
+    year: finalLY, month: finalLM, day: finalLD,
+    // 양력 (달력 표시용)
+    solarYear: finalSY, solarMonth: finalSM, solarDay: finalSD,
+    hour, gender: sg,
+    inputType: curTab // 어떤 방식으로 입력했는지 기록
+  };
+
+  localStorage.setItem('fortune_profiles', JSON.stringify([profile]));
+
+  alert((name||'사용자')+'님의 정보가 저장되었습니다!\n\n'+
+    '음력: '+finalLY+'년 '+finalLM+'월 '+finalLD+'일\n'+
+    '양력: '+finalSY+'년 '+finalSM+'월 '+finalSD+'일\n'+
+    '성별: '+(sg==='F'?'여성':'남성')+'\n\n'+
+    '사주는 음력 기준으로 분석됩니다.');
+
+  location.href = '../index.html';
+}
+
+// 기존 프로필 불러오기 (날짜는 빈칸 유지, 이름/시간/성별만 자동입력)
+(function() {
+  const saved = JSON.parse(localStorage.getItem('fortune_profiles')||'[]')[0];
+  if (!saved) return;
+
+  // 이름, 시간, 성별만 자동입력
+  document.getElementById('inp-name').value = saved.name||'';
+  document.getElementById('inp-hour').value = saved.hour !== undefined ? saved.hour : -1;
+  sg = saved.gender||'F'; selG(sg);
+  // 날짜 칸은 비워둠 (직접 입력하도록)
+
+  // 저장된 프로필 표시
+  document.getElementById('saved-wrap').innerHTML =
+    '<div style="background:#fff;border:1px solid #EAD5CE;border-radius:12px;padding:14px 16px;">' +
+    '<div style="font-size:13px;font-weight:600;color:#2C1810;margin-bottom:6px;">' +
+    '<i class="fas fa-user-check" style="color:#C84B31;margin-right:6px;"></i>저장된 프로필</div>' +
+    '<div style="font-size:13px;color:#6B4F3A;line-height:1.7;">' +
+    (saved.name||'이름없음') + '<br>' +
+    '음력 ' + saved.year + '년 ' + saved.month + '월 ' + saved.day + '일<br>' +
+    (saved.solarYear ? '양력 '+saved.solarYear+'년 '+saved.solarMonth+'월 '+saved.solarDay+'일' : '') + '<br>' +
+    (saved.gender==='M'?'남성':'여성') + '</div>' +
+    '<button onclick="if(confirm(\'프로필을 삭제할까요?\'))' +
+    '{localStorage.removeItem(\'fortune_profiles\');location.reload();}" ' +
+    'style="margin-top:10px;padding:7px 14px;background:#fff;border:1px solid #EAD5CE;' +
+    'border-radius:8px;color:#999;font-size:12px;cursor:pointer;font-family:inherit;">프로필 삭제</button>' +
+    '</div>';
+})();
+</script>
+</body>
+</html>

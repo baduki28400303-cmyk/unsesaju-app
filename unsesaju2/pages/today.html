@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>오늘의 운세</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.top-card{background:#C84B31;border-radius:14px;padding:18px;margin-bottom:14px;color:#fff;}
+.top-card .dt{font-family:'Noto Serif KR',serif;font-size:19px;font-weight:700;margin-bottom:3px;}
+.top-card .ij{font-size:13px;opacity:.9;}
+.top-card .ln{font-size:12px;opacity:.75;margin-top:2px;}
+.ustrip{background:#fff;border:1px solid #EAD5CE;border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.ustrip .av{width:40px;height:40px;border-radius:50%;background:#C84B31;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;}
+.star-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sc{background:#fff;border:1px solid #EAD5CE;border-radius:12px;padding:14px;text-align:center;}
+.sc .si{font-size:22px;margin-bottom:5px;}
+.sc .sn{font-size:12px;color:#999;margin-bottom:4px;}
+.sc .ss{font-size:15px;color:#C84B31;letter-spacing:1px;}
+.sc .sv{font-size:17px;font-weight:700;color:#C84B31;margin-top:3px;}
+.lucky-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.li{background:#fff;border:1px solid #EAD5CE;border-radius:10px;padding:10px 4px;text-align:center;}
+.licon{font-size:18px;margin-bottom:3px;}
+.ll{font-size:10px;color:#999;}
+.lv{font-size:12px;font-weight:600;color:#2C1810;margin-top:2px;}
+.mc{background:#fff;border:1px solid #EAD5CE;border-radius:14px;padding:16px;margin-bottom:12px;}
+.mc h3{font-size:15px;color:#C84B31;margin-bottom:8px;}
+.mc p{font-size:14px;line-height:1.85;color:#2C1810;}
+.stease{background:#fff;border:2px solid #C84B31;border-radius:14px;padding:20px;text-align:center;margin-bottom:14px;}
+.stease h4{font-size:15px;font-weight:700;color:#2C1810;margin-bottom:6px;}
+.stease p{font-size:13px;color:#6B4F3A;line-height:1.6;margin-bottom:14px;}
+.sbtn{background:#C84B31;color:#fff;border:none;border-radius:12px;padding:13px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;}
+.ldbox{text-align:center;padding:40px 20px;background:#fff;border:1px solid #EAD5CE;border-radius:14px;}
+.ldbox i{font-size:36px;color:#C84B31;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <a href="../index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <h1>오늘의 운세</h1>
+  <span id="hd" style="font-size:11px;opacity:.85;"></span>
+</div>
+<div class="page-content"><div id="wrap"></div></div>
+<nav class="bottom-nav">
+  <a href="today.html" class="nav-item active"><i class="fas fa-sun"></i><span>오늘운세</span></a>
+  <a href="input.html" class="nav-item"><i class="fas fa-user-edit"></i><span>내 정보</span></a>
+  <a href="../index.html" class="nav-item"><i class="fas fa-th-large"></i><span>전체메뉴</span></a>
+  <a href="chart2026.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>2026표</span></a>
+  <a href="faq.html" class="nav-item"><i class="fas fa-question-circle"></i><span>FAQ</span></a>
+</nav>
+<script src="../js/lunar.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/premium.js"></script>
+<script>
+const STEMS=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BRANCHES=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const ZODIACS=['쥐','소','호랑이','토끼','용','뱀','말','양','원숭이','닭','개','돼지'];
+const ILJIN=['갑자','을축','병인','정묘','무진','기사','경오','신미','임신','계유','갑술','을해','병자','정축','무인','기묘','경진','신사','임오','계미','갑신','을유','병술','정해','무자','기축','경인','신묘','임진','계사','갑오','을미','병신','정유','무술','기해','경자','신축','임인','계묘','갑진','을사','병오','정미','무신','기유','경술','신해','임자','계축','갑인','을묘','병진','정사','무오','기미','경신','신유','임술','계해'];
+const DAYS=['일','월','화','수','목','금','토'];
+const COLORS=['빨간색','노란색','파란색','초록색','흰색','보라색','주황색'];
+const NUMS=['1, 8','2, 7','3, 6','4, 9','5, 0','1, 4','2, 6'];
+const DIRS=['남쪽','북쪽','동쪽','서쪽','남동쪽','남서쪽','북동쪽'];
+const TIMES=['오전 9~11시','오후 1~3시','오후 3~5시','오전 7~9시','오후 7~9시','오전 11~1시','오후 5~7시'];
+const STARS=[{n:'전체운',i:'✨'},{n:'재물운',i:'💰'},{n:'애정운',i:'❤️'},{n:'건강운',i:'🌿'}];
+const SCORES=[[82,68,75,90],[75,85,60,78],[90,72,88,65],[68,79,85,92],[85,65,70,88],[78,90,82,75],[72,75,95,68]];
+
+const now=new Date();
+document.getElementById('hd').textContent=(now.getMonth()+1)+'/'+now.getDate();
+const base=new Date(2024,0,1);
+const diff=Math.floor((now-base)/86400000);
+const iljinStr=ILJIN[((diff%60)+60)%60]+'일 (日)';
+let lunarStr='';
+try{const l=solarToLunar(now.getFullYear(),now.getMonth()+1,now.getDate());lunarStr=`음력 ${l.year}년 ${l.month}월 ${l.day}일${l.isLeap?' (윤달)':''}`;}catch(e){}
+
+const p=JSON.parse(localStorage.getItem('fortune_profiles')||'[]')[0];
+const wrap=document.getElementById('wrap');
+
+if(!p){
+  wrap.innerHTML=`<div style="text-align:center;padding:40px 20px;background:#fff;border:1px solid #EAD5CE;border-radius:16px;">
+    <i class="fas fa-user-plus" style="font-size:44px;color:#C84B31;margin-bottom:14px;display:block;"></i>
+    <h3 style="margin-bottom:8px;">내 정보를 먼저 입력해주세요</h3>
+    <p style="font-size:13px;color:#999;margin-bottom:16px;line-height:1.6;">생년월일을 등록하면 매일 맞춤 운세를 확인할 수 있습니다</p>
+    <a href="input.html" style="display:block;padding:14px;background:#C84B31;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">내 정보 입력하기</a>
+  </div>`;
+} else { loadToday(); }
+
+function loadToday(){
+  const name=p.name||'사용자';
+  const yp={stem:STEMS[(p.year-4)%10],branch:BRANCHES[(p.year-4)%12],animal:ZODIACS[(p.year-4)%12]};
+  const isPro=checkPremium();
+  const seed=now.getFullYear()*10000+(now.getMonth()+1)*100+now.getDate()+(p.year||0);
+  const idx=seed%7;
+  const sc=SCORES[idx];
+
+  const FALL_MSGS=[
+    `오늘은 새로운 시작을 알리는 기운이 강합니다. ${name}님, 오랫동안 미뤄왔던 일을 시작하기에 최적의 날입니다.`,
+    `귀인을 만날 가능성이 높습니다. ${name}님, 평소 연락이 뜸했던 지인에게 먼저 연락해보세요.`,
+    `재물운이 상승하는 날입니다. ${name}님, 작은 투자나 저축을 시작하면 좋은 결과를 기대할 수 있습니다.`,
+    `건강 관리에 신경 쓰는 것이 좋습니다. ${name}님, 충분한 수면과 규칙적인 식사가 중요합니다.`,
+    `인간관계에서 오해가 생길 수 있습니다. ${name}님, 말과 행동을 신중하게 하세요.`,
+    `창의적인 아이디어가 넘치는 날입니다. ${name}님, 오전에 중요한 업무를 처리하세요.`,
+    `감정 기복이 있을 수 있습니다. ${name}님, 명상이나 산책으로 마음을 안정시키세요.`
+  ];
+
+  // 기본 화면 먼저 표시
+  showTodayContent(name, yp, isPro, idx, sc, FALL_MSGS[idx], '');
+
+  // Gemini API 호출 (XMLHttpRequest)
+  const prompt=`전문 사주 해설가입니다.
+[정보] 이름:${name}, 생년:${p.year}년, 성별:${p.gender==='M'?'남성':'여성'}, 오늘:${now.getFullYear()}년${now.getMonth()+1}월${now.getDate()}일, 일진:${iljinStr}
+반드시 JSON만 출력(백틱금지):
+{"message":"${name}님 이름포함 오늘운세한마디100자","advice":"오늘의조언70자"}`;
+
+  const xhr=new XMLHttpRequest();
+  xhr.open('POST','https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+GEMINI_API_KEY,true);
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.timeout=20000;
+  xhr.onload=function(){
+    if(xhr.status===200){
+      try{
+        const d=JSON.parse(xhr.responseText);
+        const raw=(d.candidates?.[0]?.content?.parts?.[0]?.text||'').replace(/```json|```/gi,'').trim();
+        const s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+        const parsed=JSON.parse(raw.slice(s,e+1));
+        if(parsed.message){
+          showTodayContent(name,yp,isPro,idx,sc,parsed.message,parsed.advice||'');
+        }
+      }catch(e){}
+    }
+  };
+  xhr.send(JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.8,maxOutputTokens:300}}));
+}
+
+function showTodayContent(name,yp,isPro,idx,sc,msg,advice){
+  let html=`
+    <div class="top-card">
+      <div class="dt">${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 (${DAYS[now.getDay()]})</div>
+      <div class="ij">오늘의 일진: ${iljinStr}</div>
+      ${lunarStr?`<div class="ln">${lunarStr}</div>`:''}
+    </div>
+    <div class="ustrip">
+      <div class="av"><i class="fas fa-user" style="font-size:18px;"></i></div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#2C1810;">${name}님의 오늘 운세</div>
+        <div style="font-size:12px;color:#999;">${p.year}년생 ${yp.animal}띠 · ${yp.stem}${yp.branch}년</div>
+      </div>
+    </div>
+    <div class="star-grid">
+      ${STARS.map((s,i)=>{const score=sc[i];const stars=Math.round(score/20);
+        return `<div class="sc"><div class="si">${s.i}</div><div class="sn">${s.n}</div>
+          <div class="ss">${'★'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
+          <div class="sv">${score}점</div></div>`;}).join('')}
+    </div>
+    <div class="lucky-grid">
+      <div class="li"><div class="licon">🎨</div><div class="ll">행운 색</div><div class="lv">${COLORS[idx]}</div></div>
+      <div class="li"><div class="licon">🔢</div><div class="ll">행운 숫자</div><div class="lv">${NUMS[idx]}</div></div>
+      <div class="li"><div class="licon">🧭</div><div class="ll">행운 방위</div><div class="lv">${DIRS[idx]}</div></div>
+      <div class="li"><div class="licon">⏰</div><div class="ll">길한 시간</div><div class="lv">${TIMES[idx]}</div></div>
+    </div>
+    <div class="mc">
+      <h3><i class="fas fa-star"></i> ${name}님의 오늘 한마디</h3>
+      <p>${msg}</p>
+      ${advice?`<p style="margin-top:10px;padding-top:10px;border-top:1px solid #f0ece8;font-size:13px;color:#6B4F3A;">💡 ${advice}</p>`:''}
+    </div>`;
+
+  if(!isPro){
+    html+=`<div class="stease">
+      <div style="font-size:28px;margin-bottom:8px;">🔒</div>
+      <h4>${name}님의 상세 운세가 궁금하시죠?</h4>
+      <p>시간대별 운세·주의할 상황·<br>오늘 행운을 극대화하는 방법까지<br>구독 후 확인하세요</p>
+      <button onclick="location.href='premium.html'" class="sbtn">월 3,000원으로 전체 보기</button>
+      <div style="font-size:11px;color:#999;margin-top:7px;">📱 자동이체 · 언제든 해지 가능</div>
+    </div>`;
+  }
+
+  html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    <a href="../index.html" style="display:block;padding:13px;background:#fff;border:2px solid #C84B31;border-radius:12px;color:#C84B31;font-weight:700;font-size:14px;text-align:center;text-decoration:none;">전체 메뉴</a>
+    <button onclick="loadToday()" style="padding:13px;background:#C84B31;border:none;border-radius:12px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;"><i class="fas fa-redo"></i> 새로고침</button>
+  </div>`;
+
+  wrap.innerHTML=html;
+}
+</script>
+</body>
+</html>
